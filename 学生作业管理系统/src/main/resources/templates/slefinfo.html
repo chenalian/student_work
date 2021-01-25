@@ -1,0 +1,38 @@
+<!doctype html>
+<html class="x-admin-sm"xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>个人信息</title>
+        <meta name="renderer" content="webkit|ie-comp|ie-stand">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+        <link rel="stylesheet" href="../css/font.css">
+        <link rel="stylesheet" href="../css/xadmin.css">
+    </head>
+    <body>
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-body ">
+
+                            <div id="main" style="align-left:50%;">
+                                姓名:<h2>[[${session.user.name}]]</h2>
+                                性别:<h2>[[${session.user.gender}]]</h2>
+                                头像:<br/>
+                                <!--<img th:src="@{../images/{}()}"/>-->
+                                <img th:src="@{../images/{photo}(photo=${session.user.photo+'.jpg'})}">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+        <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/extension/bmap.min.js"></script>
+        <script type="text/javascript">
+    </body>
+</html>

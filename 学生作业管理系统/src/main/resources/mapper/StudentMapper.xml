@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="alian.mapper.StudentMapper">
+  <resultMap id="BaseResultMap" type="alian.domain.Student">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="scode" jdbcType="VARCHAR" property="scode" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="photo" jdbcType="VARCHAR" property="photo" />
+    <result column="unreadinfo" jdbcType="INTEGER" property="unreadinfo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, scode, name, gender, photo, unreadinfo
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from student
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="alian.domain.Student">
+    insert into student (id, scode, name, 
+      gender, photo, unreadinfo
+      )
+    values (#{id,jdbcType=INTEGER}, #{scode,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, #{unreadinfo,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="alian.domain.Student">
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="scode != null">
+        scode,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="photo != null">
+        photo,
+      </if>
+      <if test="unreadinfo != null">
+        unreadinfo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="scode != null">
+        #{scode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="unreadinfo != null">
+        #{unreadinfo,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="alian.domain.Student">
+    update student
+    <set>
+      <if test="scode != null">
+        scode = #{scode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="unreadinfo != null">
+        unreadinfo = #{unreadinfo,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="alian.domain.Student">
+    update student
+    set scode = #{scode,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=VARCHAR},
+      unreadinfo = #{unreadinfo,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="findpasswordbyid" parameterType="String" resultType="String">
+     select scode from
+    student
+    where `name`=#{id}
+  </select>
+
+  <update id="receiveinfo" parameterType="Integer">
+    update
+    student
+    set student.unreadinfo=student.unreadinfo+1
+    where student.id=#{id}
+  </update>
+
+  <update id="receivemanyinfo" parameterType="alian.domain.UserInfo">
+    update
+    student
+    set student.unreadinfo=student.unreadinfo-#{nums,jdbcType=INTEGER}
+    where student.id=#{id,jdbcType=INTEGER}
+  </update>
+  <select id="findinfoByname" parameterType="String" resultType="alian.domain.Student">
+    select *
+    from student
+    where student.name=#{id}
+  </select>
+  <select id="findallStudentHomeworks" parameterType="Integer" resultType="alian.domain.Homework">
+      select homework.id id,homework.class_id classId,homework.stime stime,homework.etime etime,homework.type type
+      ,homework.filename filename,homework.text text,homework.state state
+      from
+      homework,student,classstudent
+      where
+      homework.class_id=classstudent.class_id
+      and student.id=classstudent.Student_id
+      and homework.state=1
+      and student.id=#{id}
+  </select>
+  <update id="readinfo" parameterType="Integer" >
+    UPDATE
+    student
+    set student.unreadinfo=student.unreadinfo-1
+    where student.id=#{id}
+  </update>
+
+  <delete id="readmanyinfo" parameterType="String">
+      DELETE
+      FROM
+      meaasge
+      where id in (${value})
+  </delete>
+  <select id="queryTeacherByHomeworkid" parameterType="Integer" resultType="Integer">
+          select teacher.id
+          from homework,class,teacher
+          where homework.class_id=class.id
+          and class.teacher_id=teacher.id
+          and homework.id=#{id}
+  </select>
+  <select id="queryHomeworkInfoByStudentid" parameterType="Integer" resultType="alian.domain.Homeworkinfo">
+      SELECT homeworkinfo.id id,homeworkinfo.homework_id homeworkId,homeworkinfo.student_id studentId,homeworkinfo.type type,homeworkinfo.filename filename
+      ,homeworkinfo.text text,homeworkinfo.info info,homeworkinfo.piyu piyu,homeworkinfo.filescore filescore,homeworkinfo.textscore textscore,homeworkinfo.score score
+      from homeworkinfo,homework,class
+      where homework.id=homeworkinfo.homework_id
+      and homework.class_id=class.id
+      and homeworkinfo.student_id=#{id}
+  </select>
+
+</mapper>

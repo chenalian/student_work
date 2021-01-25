@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="alian.mapper.HomeworkinfoMapper">
+  <resultMap id="BaseResultMap" type="alian.domain.Homeworkinfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="homework_id" jdbcType="INTEGER" property="homeworkId" />
+    <result column="student_id" jdbcType="INTEGER" property="studentId" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="filename" jdbcType="VARCHAR" property="filename" />
+    <result column="text" jdbcType="VARCHAR" property="text" />
+    <result column="info" jdbcType="VARCHAR" property="info" />
+    <result column="piyu" jdbcType="VARCHAR" property="piyu" />
+    <result column="filescore" jdbcType="INTEGER" property="filescore" />
+    <result column="textscore" jdbcType="INTEGER" property="textscore" />
+    <result column="score" jdbcType="VARCHAR" property="score" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, homework_id, student_id, type, filename, text, info, piyu, filescore, textscore, 
+    score
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from homeworkinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from homeworkinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="alian.domain.Homeworkinfo">
+    insert into homeworkinfo (id, homework_id, student_id, 
+      type, filename, text, 
+      info, piyu, filescore, 
+      textscore, score)
+    values (#{id,jdbcType=INTEGER}, #{homeworkId,jdbcType=INTEGER}, #{studentId,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER}, #{filename,jdbcType=VARCHAR}, #{text,jdbcType=VARCHAR}, 
+      #{info,jdbcType=VARCHAR}, #{piyu,jdbcType=VARCHAR}, #{filescore,jdbcType=INTEGER}, 
+      #{textscore,jdbcType=INTEGER}, #{score,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="alian.domain.Homeworkinfo">
+    insert into homeworkinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="homeworkId != null">
+        homework_id,
+      </if>
+      <if test="studentId != null">
+        student_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="filename != null">
+        filename,
+      </if>
+      <if test="text != null">
+        text,
+      </if>
+      <if test="info != null">
+        info,
+      </if>
+      <if test="piyu != null">
+        piyu,
+      </if>
+      <if test="filescore != null">
+        filescore,
+      </if>
+      <if test="textscore != null">
+        textscore,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="homeworkId != null">
+        #{homeworkId,jdbcType=INTEGER},
+      </if>
+      <if test="studentId != null">
+        #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="filename != null">
+        #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="text != null">
+        #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="info != null">
+        #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="piyu != null">
+        #{piyu,jdbcType=VARCHAR},
+      </if>
+      <if test="filescore != null">
+        #{filescore,jdbcType=INTEGER},
+      </if>
+      <if test="textscore != null">
+        #{textscore,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="alian.domain.Homeworkinfo">
+    update homeworkinfo
+    <set>
+      <if test="homeworkId != null">
+        homework_id = #{homeworkId,jdbcType=INTEGER},
+      </if>
+      <if test="studentId != null">
+        student_id = #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="filename != null">
+        filename = #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="text != null">
+        text = #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="info != null">
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="piyu != null">
+        piyu = #{piyu,jdbcType=VARCHAR},
+      </if>
+      <if test="filescore != null">
+        filescore = #{filescore,jdbcType=INTEGER},
+      </if>
+      <if test="textscore != null">
+        textscore = #{textscore,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="alian.domain.Homeworkinfo">
+    update homeworkinfo
+    set homework_id = #{homeworkId,jdbcType=INTEGER},
+      student_id = #{studentId,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      filename = #{filename,jdbcType=VARCHAR},
+      text = #{text,jdbcType=VARCHAR},
+      info = #{info,jdbcType=VARCHAR},
+      piyu = #{piyu,jdbcType=VARCHAR},
+      filescore = #{filescore,jdbcType=INTEGER},
+      textscore = #{textscore,jdbcType=INTEGER},
+      score = #{score,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="uploadHomeworkScore" parameterType="alian.domain.Homeworkinfo">
+     update homeworkinfo
+      set
+      piyu = #{piyu,jdbcType=VARCHAR},
+      filescore = #{filescore,jdbcType=INTEGER},
+      textscore = #{textscore,jdbcType=INTEGER},
+      score = #{score,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

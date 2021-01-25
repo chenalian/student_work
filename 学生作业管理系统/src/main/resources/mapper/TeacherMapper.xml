@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="alian.mapper.TeacherMapper">
+  <resultMap id="BaseResultMap" type="alian.domain.Teacher">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="tcode" jdbcType="VARCHAR" property="tcode" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="degree" jdbcType="VARCHAR" property="degree" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="photo" jdbcType="VARCHAR" property="photo" />
+    <result column="unreadinfo" jdbcType="INTEGER" property="unreadinfo" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="alian.domain.Teacher">
+    <result column="introduction" jdbcType="LONGVARCHAR" property="introduction" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, tcode, name, gender, degree, title, photo, unreadinfo
+  </sql>
+  <sql id="Blob_Column_List">
+    introduction
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from teacher
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from teacher
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="alian.domain.Teacher">
+    insert into teacher (id, tcode, name, 
+      gender, degree, title, 
+      photo, unreadinfo, introduction
+      )
+    values (#{id,jdbcType=INTEGER}, #{tcode,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=VARCHAR}, #{degree,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{photo,jdbcType=VARCHAR}, #{unreadinfo,jdbcType=INTEGER}, #{introduction,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="alian.domain.Teacher">
+    insert into teacher
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="tcode != null">
+        tcode,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="degree != null">
+        degree,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="photo != null">
+        photo,
+      </if>
+      <if test="unreadinfo != null">
+        unreadinfo,
+      </if>
+      <if test="introduction != null">
+        introduction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="tcode != null">
+        #{tcode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null">
+        #{degree,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="unreadinfo != null">
+        #{unreadinfo,jdbcType=INTEGER},
+      </if>
+      <if test="introduction != null">
+        #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="alian.domain.Teacher">
+    update teacher
+    <set>
+      <if test="tcode != null">
+        tcode = #{tcode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null">
+        degree = #{degree,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="unreadinfo != null">
+        unreadinfo = #{unreadinfo,jdbcType=INTEGER},
+      </if>
+      <if test="introduction != null">
+        introduction = #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="alian.domain.Teacher">
+    update teacher
+    set tcode = #{tcode,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      degree = #{degree,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=VARCHAR},
+      unreadinfo = #{unreadinfo,jdbcType=INTEGER},
+      introduction = #{introduction,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="alian.domain.Teacher">
+    update teacher
+    set tcode = #{tcode,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      degree = #{degree,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=VARCHAR},
+      unreadinfo = #{unreadinfo,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findpasswordbyid" parameterType="String" resultType="String">
+      select tcode from
+      teacher
+      where `name`=#{id}
+  </select>
+  <update id="receiveinfo" parameterType="Integer">
+    update
+    teacher
+    set teacher.unreadinfo=teacher.unreadinfo+1
+    where teacher.id=#{id}
+  </update>
+
+  <select id="findinfoByname" parameterType="String" resultType="alian.domain.Teacher">
+      select *
+      from teacher
+      where teacher.name=#{id}
+  </select>
+
+  <select id="findallHomeworksbyteacherid" parameterType="Integer" resultType="alian.domain.Homework">
+    select homework.id id,homework.class_id classId, homework.stime stime,homework.etime etime,homework.type  type,homework.filename filename,homework.text text,homework.state state
+    from
+    homework,class,teacher
+    WHERE
+    homework.class_id=class.id
+    and class.teacher_id=teacher.id
+    and teacher.id=#{id}
+  </select>
+
+  <select id="checkhomeworkwork" parameterType="Integer" resultType="alian.domain.Homeworkinfo">
+    SELECT homeworkinfo.id id,homeworkinfo.homework_id homeworkId ,homeworkinfo.student_id studentId,homeworkinfo.type type,homeworkinfo.filename filename,homeworkinfo.text text, homeworkinfo.info info,homeworkinfo.piyu piyu,homeworkinfo.filescore filescore,homeworkinfo.textscore textscore, homeworkinfo.score score
+    from
+    homework,class,teacher,homeworkinfo
+    WHERE
+    homework.class_id=class.id
+    and class.teacher_id=teacher.id
+    and homeworkinfo.homework_id=homework.id
+    and teacher.id=#{id}
+  </select>
+
+  <update id="teacherrecevieInfo" parameterType="Integer">
+    UPDATE
+    teacher
+    set unreadinfo=unreadinfo+1
+    where id=#{id}
+  </update>
+
+  <select id="queryHomeworkInfoByTeacherId" parameterType="Integer" resultType="alian.domain.Homeworkinfo">
+      SELECT homeworkinfo.id id,homeworkinfo.homework_id homeworkId,homeworkinfo.student_id studentId,homeworkinfo.type type,homeworkinfo.filename filename
+      ,homeworkinfo.text text,homeworkinfo.info info,homeworkinfo.piyu piyu,homeworkinfo.filescore filescore,homeworkinfo.textscore textscore,homeworkinfo.score score
+      from homeworkinfo,homework,class
+      where homework.id=homeworkinfo.homework_id
+      and homework.class_id=class.id
+      and class.teacher_id=#{id}
+  </select>
+
+  <select id="queryAllpingjia" parameterType="Integer" resultType="String">
+   SELECT info
+  from homeworkinfo
+  where homeworkinfo.homework_id=#{id}
+  </select>
+
+  <select id="queryallHomeworksMember" parameterType="Integer" resultType="Integer">
+    SELECT count(*)
+    from
+    homeworkinfo
+    where
+    homeworkinfo.homework_id=#{id}
+    GROUP BY homeworkinfo.homework_id
+  </select>
+
+  <select id="queryClassNms" parameterType="Integer" resultType="Integer">
+       select  count(*)
+      from homework,classstudent
+      where classstudent.class_id=homework.class_id
+      and
+      homework.id=#{id}
+  </select>
+
+  <select id="queryScoreLine" parameterType="Integer" resultType="alian.domain.ScoreStatistic">
+    select
+    sum(case when score between 100 and 100 then 1 else 0 end) as A,
+    sum(case when score between 91 and 99 then 1 else 0 end) as B,
+    sum(case when score between 81 and 90 then 1 else 0 end) as C,
+    sum(case when score between 71 and 80 then 1 else 0 end) as D,
+    sum(case when score between 60 and 70 then 1 else 0 end) as E,
+    sum(case when score between 0 and 59 then 1 else 0 end) as F
+    from homeworkinfo
+    where homeworkinfo.homework_id=#{id};
+  </select>
+  <update id="readinfo" parameterType="Integer" >
+    UPDATE
+    teacher
+    set teacher.unreadinfo=teacher.unreadinfo-1
+    where teacher.id=#{id}
+  </update>
+  <delete id="readmanyinfo" parameterType="String">
+      DELETE
+      FROM
+      meaasge
+      where id in (${value})
+  </delete>
+  <update id="receivemanyinfo" parameterType="alian.domain.UserInfo">
+    update
+    teacher
+    set teacher.unreadinfo=teacher.unreadinfo-#{nums,jdbcType=INTEGER}
+    where teacher.id=#{id,jdbcType=INTEGER}
+  </update>
+</mapper>
